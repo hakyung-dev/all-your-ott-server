@@ -1,9 +1,15 @@
+if (process.env.NODE_ENV === 'development') {
+  console.log('DEVELOPMENT');
+  require('dotenv').config();
+}
+
 const createError = require('http-errors');
 const express = require('express');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const cors = require('cors');
 
+const { CLIENT_URL } = require('./config');
 const usersRouter = require('./routes/users');
 
 const mongoose = require('mongoose');
@@ -14,14 +20,14 @@ mongoose.connect('mongodb://localhost:27017/streaming', {
 
 const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
-db.once('open', function cb () {
+db.once('open', function cb() {
   console.log('DB connected!!');
 });
 
 const app = express();
 
 const corsOptions = {
-  origin: 'http://localhost:3000',
+  origin: CLIENT_URL,
   credentials: true,
 };
 app.use(cors(corsOptions));
