@@ -20,7 +20,7 @@ mongoose.connect('mongodb://localhost:27017/streaming', {
 
 const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
-db.once('open', function cb() {
+db.once('open', () => {
   console.log('DB connected!!');
 });
 
@@ -37,7 +37,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
-app.use('/users', usersRouter);
+app.use('/api/users', usersRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
