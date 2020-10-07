@@ -32,13 +32,63 @@ exports.getToken = (req, res, next) => {
 
 exports.getUser = async (req, res, next) => {
   try {
-    const signInUser = await User.findById(req.authorizedUser._id, '-password');
+    const user = await User.findById(
+      req.authorizedUser._id,
+      '_id name streaming'
+    );
     return res.status(200).json({
-      signInUser,
+      signInUser: { _id: user._id, name: user.name },
+      streaming: user.streaming,
       result: 'ok',
     });
   } catch (err) {
     console.err(err);
+    next(err);
+  }
+};
+
+exports.addStreaming = async (req, res, next) => {
+  try {
+    const newService = req.body;
+
+    const user = await User.findByIdAndUpdate(
+      req.params.user_id,
+      {
+        $push: {
+          streaming: newService,
+        },
+      },
+      { new: true }
+    );
+
+    res.status(200).json({
+      message: 'Add Streaming',
+      user,
+    });
+  } catch (err) {
+    console.log(err);
+    next(err);
+  }
+};
+
+exports.removeStreaming = async (req, res, next) => {
+  try {
+    const user = await User.findByIdAndUpdate(
+      req.params.user_id,
+      {
+        $pull: {
+          streaming: { _id: req.body.streamingId },
+        },
+      },
+      { new: true }
+    );
+
+    res.status(200).json({
+      message: 'Remove Streaming',
+      user,
+    });
+  } catch (err) {
+    console.log(err);
     next(err);
   }
 };

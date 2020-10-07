@@ -45,3 +45,22 @@ exports.signInValidation = async (req, res, next) => {
     next(err);
   }
 };
+
+exports.streamingAddValidation = async (req, res, next) => {
+  const { service_name } = req.body;
+  try {
+    const subscribed = await User.findOne({
+      'streaming.service_name': service_name,
+    });
+
+    if (subscribed) {
+      return res.status(400).json({
+        message: '이미 등록된 서비스입니다.',
+      });
+    }
+    next();
+  } catch (err) {
+    console.err(err);
+    next(err);
+  }
+};

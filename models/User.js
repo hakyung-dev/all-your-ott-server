@@ -15,8 +15,8 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    subscriptions: [
-      {
+    streaming: [
+      new mongoose.Schema({
         service_name: {
           type: String,
           required: true,
@@ -26,10 +26,10 @@ const userSchema = new mongoose.Schema(
           required: true,
         },
         billing_date: {
-          type: Date,
+          type: Number,
           require: true,
         },
-      },
+      }),
     ],
     my_review: [
       {
