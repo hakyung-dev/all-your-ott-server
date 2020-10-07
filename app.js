@@ -9,13 +9,14 @@ const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const cors = require('cors');
 
-const { CLIENT_URL } = require('./config');
+const { CLIENT_URL, MONGOOSE_URL } = require('./config');
 const usersRouter = require('./routes/users');
 
 const mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost:27017/streaming', {
+mongoose.connect(MONGOOSE_URL, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
+  useFindAndModify: false,
 });
 
 const db = mongoose.connection;
