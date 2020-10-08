@@ -63,7 +63,7 @@ exports.addStreaming = async (req, res, next) => {
 
     res.status(200).json({
       message: 'Add Streaming',
-      user,
+      streaming: user.streaming,
     });
   } catch (err) {
     console.log(err);
@@ -85,7 +85,7 @@ exports.removeStreaming = async (req, res, next) => {
 
     res.status(200).json({
       message: 'Remove Streaming',
-      user,
+      streaming: user.streaming,
     });
   } catch (err) {
     console.log(err);

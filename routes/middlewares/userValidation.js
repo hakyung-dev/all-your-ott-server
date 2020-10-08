@@ -49,9 +49,13 @@ exports.signInValidation = async (req, res, next) => {
 exports.streamingAddValidation = async (req, res, next) => {
   const { service_name } = req.body;
   try {
-    const subscribed = await User.findOne({
-      'streaming.service_name': service_name,
-    });
+    const subscribed = await User.findOne(
+      {
+        _id: req.params.user_id,
+        'streaming.service_name': service_name,
+      },
+      'streaming'
+    );
 
     if (subscribed) {
       return res.status(400).json({
