@@ -11,6 +11,7 @@ const cors = require('cors');
 
 const { CLIENT_URL, MONGOOSE_URL } = require('./config');
 const usersRouter = require('./routes/users');
+const searchRouter = require('./routes/search');
 
 const mongoose = require('mongoose');
 mongoose.connect(MONGOOSE_URL, {
@@ -39,6 +40,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
 app.use('/api/users', usersRouter);
+app.use('/api/search', searchRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
