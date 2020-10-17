@@ -12,6 +12,7 @@ const cors = require('cors');
 const { CLIENT_URL, MONGOOSE_URL } = require('./config');
 const usersRouter = require('./routes/users');
 const searchRouter = require('./routes/search');
+const reviewRouter = require('./routes/review');
 
 const mongoose = require('mongoose');
 mongoose.connect(MONGOOSE_URL, {
@@ -41,6 +42,7 @@ app.use(cookieParser());
 
 app.use('/api/users', usersRouter);
 app.use('/api/search', searchRouter);
+app.use('/api/review', reviewRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
