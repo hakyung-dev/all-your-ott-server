@@ -35,10 +35,12 @@ exports.getUser = async (req, res, next) => {
     const user = await User.findById(
       req.authorizedUser._id,
       '_id name streaming'
-    );
+    ).populate('my_review');
+
     return res.status(200).json({
       signInUser: { _id: user._id, name: user.name },
       streaming: user.streaming,
+      review: user.my_review,
       result: 'ok',
     });
   } catch (err) {
