@@ -2,8 +2,12 @@ const mongoose = require('mongoose');
 
 const reviewSchema = new mongoose.Schema(
   {
-    movie: {
+    content: {
       type: Object,
+      required: true,
+    },
+    type: {
+      type: String,
       required: true,
     },
     creator: {
