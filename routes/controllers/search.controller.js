@@ -1,4 +1,5 @@
 const axios = require('axios');
+const Genre = require('../../data/genre.json');
 
 exports.getResult = async (req, res, next) => {
   try {
@@ -31,6 +32,24 @@ exports.getResult = async (req, res, next) => {
 
     res.status(200).json({
       result: results,
+    });
+  } catch (err) {
+    console.log(err);
+    next(err);
+  }
+};
+
+exports.getGenre = async (req, res, next) => {
+  try {
+    let genre = [];
+    const { type, ids } = req.body;
+    const genreData = Genre[type];
+    ids.map((id) => {
+      const string = genreData.filter((g) => g.id === id)[0];
+      if (string) return genre.push(string.name);
+    });
+    res.status(200).json({
+      result: genre,
     });
   } catch (err) {
     console.log(err);
