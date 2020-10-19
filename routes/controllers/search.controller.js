@@ -2,22 +2,35 @@ const axios = require('axios');
 
 exports.getResult = async (req, res, next) => {
   try {
+    const results = [];
     const movieInfo = await axios.get(
-      `https://openapi.naver.com/v1/search/movie.json`,
-      {
-        params: {
-          query: req.body.title,
-          display: 28,
-        },
-        headers: {
-          'X-Naver-Client-Id': process.env.NAVER_CLIENT_ID,
-          'X-Naver-Client-Secret': process.env.NAVER_CLIENT_SECRET,
-        },
-      }
+      `https://api.themoviedb.org/3/search/movie?api_key=${
+        process.env.TMDB_KEY
+      }&query=${encodeURI(req.body.query)}&language=ko`
     );
 
+    movieInfo.data.results.map((result) => {
+      results.push({
+        type: `movie`,
+        ...result,
+      });
+    });
+
+    const tvInfo = await axios.get(
+      `https://api.themoviedb.org/3/search/tv?api_key=${
+        process.env.TMDB_KEY
+      }&query=${encodeURI(req.body.query)}&language=ko`
+    );
+
+    tvInfo.data.results.map((result) => {
+      results.push({
+        type: `tv`,
+        ...result,
+      });
+    });
+
     res.status(200).json({
-      result: movieInfo.data.items,
+      result: results,
     });
   } catch (err) {
     console.log(err);
