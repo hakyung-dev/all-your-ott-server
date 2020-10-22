@@ -22,3 +22,16 @@ exports.create = async (req, res, next) => {
     next(err);
   }
 };
+
+exports.get = async (req, res, next) => {
+  try {
+    const review = await Review.findById(req.params.review_id);
+    res.status(201).json({
+      result: 'ok',
+      review: review,
+    });
+  } catch (err) {
+    console.log(err);
+    next(err);
+  }
+};

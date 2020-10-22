@@ -56,3 +56,23 @@ exports.getGenre = async (req, res, next) => {
     next(err);
   }
 };
+
+exports.getDetail = async (req, res, next) => {
+  try {
+    const detailResult = await axios.get(
+      `https://api.themoviedb.org/3/${req.params.type}/${req.params.content_id}?api_key=${process.env.TMDB_KEY}&language=ko`
+    );
+
+    const creditDetail = await axios.get(
+      `https://api.themoviedb.org/3/${req.params.type}/${req.params.content_id}/credits?api_key=${process.env.TMDB_KEY}&language=ko`
+    );
+
+    res.status(200).json({
+      detail: detailResult.data,
+      credit: creditDetail.data,
+    });
+  } catch (err) {
+    console.log(err);
+    next(err);
+  }
+};
