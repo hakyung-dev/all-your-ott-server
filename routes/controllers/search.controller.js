@@ -63,13 +63,41 @@ exports.getDetail = async (req, res, next) => {
       `https://api.themoviedb.org/3/${req.params.type}/${req.params.content_id}?api_key=${process.env.TMDB_KEY}&language=ko`
     );
 
-    const creditDetail = await axios.get(
+    const creditResult = await axios.get(
       `https://api.themoviedb.org/3/${req.params.type}/${req.params.content_id}/credits?api_key=${process.env.TMDB_KEY}&language=ko`
     );
 
+    const detail = {
+      type: req.params.type,
+      id: detailResult.data.id,
+      back_img: `https://image.tmdb.org/t/p/original${detailResult.data.backdrop_path}`,
+      year: (
+        detailResult.data.first_air_date || detailResult.data.release_date
+      ).slice(0, 4),
+      homepage: detailResult.data.homepage,
+      genres: detailResult.data.genres,
+      title: detailResult.data.name || detailResult.data.title,
+      original_title:
+        detailResult.data.original_name || detailResult.data.original_title,
+      overview: detailResult.data.overview,
+      poster_img: `https://image.tmdb.org/t/p/original${detailResult.data.poster_path}`,
+      rating: detailResult.data.vote_average,
+      runtime:
+        detailResult.data.runtime || detailResult.data.episode_run_time[0],
+      seasons:
+        detailResult.data.seasons || detailResult.data.belongs_to_collection,
+      networks: detailResult.data.networks || null,
+    };
+
+    const credit = {
+      cast: creditResult.data.cast.slice(0, 10),
+      director: creditResult.data.crew.find((c) => c.job === 'Director'),
+      writer: creditResult.data.crew.find((c) => c.job === 'Screenplay'),
+    };
+
     res.status(200).json({
-      detail: detailResult.data,
-      credit: creditDetail.data,
+      detail: detail,
+      credit: credit,
     });
   } catch (err) {
     console.log(err);
