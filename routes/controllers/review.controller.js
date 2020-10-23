@@ -35,3 +35,27 @@ exports.get = async (req, res, next) => {
     next(err);
   }
 };
+
+exports.remove = async (req, res, next) => {
+  try {
+    await Review.findByIdAndRemove(req.params.review_id);
+
+    const user = await User.findByIdAndUpdate(
+      req.body.userId,
+      {
+        $pull: {
+          my_review: req.params.review_id,
+        },
+      },
+      { new: true }
+    ).populate('my_review');
+
+    res.status(200).json({
+      message: 'Remove Review',
+      review: user.my_review,
+    });
+  } catch (err) {
+    console.log(err);
+    next(err);
+  }
+};
