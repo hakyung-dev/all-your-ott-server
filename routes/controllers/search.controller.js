@@ -60,7 +60,15 @@ exports.getGenre = async (req, res, next) => {
 exports.getDetail = async (req, res, next) => {
   try {
     const detailResult = await axios.get(
-      `https://api.themoviedb.org/3/${req.params.type}/${req.params.content_id}?api_key=${process.env.TMDB_KEY}&language=ko`
+      `https://api.themoviedb.org/3/${req.params.type}/${req.params.content_id}?api_key=${process.env.TMDB_KEY}&append_to_response=videos,images&language=ko`
+    );
+
+    const videoResult = await axios.get(
+      `https://api.themoviedb.org/3/${req.params.type}/${req.params.content_id}/videos?api_key=${process.env.TMDB_KEY}`
+    );
+
+    const imageResult = await axios.get(
+      `https://api.themoviedb.org/3/${req.params.type}/${req.params.content_id}/images?api_key=${process.env.TMDB_KEY}`
     );
 
     const creditResult = await axios.get(
@@ -87,6 +95,8 @@ exports.getDetail = async (req, res, next) => {
       seasons:
         detailResult.data.seasons || detailResult.data.belongs_to_collection,
       networks: detailResult.data.networks || null,
+      video: videoResult.data.results.find((v) => v.site === 'YouTube') || null,
+      images: imageResult.data.backdrops || null,
     };
 
     const credit = {
