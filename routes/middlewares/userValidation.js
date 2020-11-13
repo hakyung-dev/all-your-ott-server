@@ -1,5 +1,5 @@
 const User = require('../../models/User');
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcryptjs');
 
 exports.signUpValidation = async (req, res, next) => {
   const { email } = req.body;
