@@ -1,10 +1,11 @@
 if (process.env.NODE_ENV === 'development') {
   console.log('DEVELOPMENT');
-  require('dotenv').config();
 }
+require('dotenv').config();
 
 const createError = require('http-errors');
 const express = require('express');
+const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const cors = require('cors');
@@ -28,6 +29,13 @@ db.once('open', () => {
 });
 
 const app = express();
+
+app.use(express.static('public'));
+app.get('/', function (req, res) {
+  res
+    .status(200)
+    .sendFile('index.html', { root: path.join(__dirname, '/index.html') });
+});
 
 const corsOptions = {
   origin: CLIENT_URL,
