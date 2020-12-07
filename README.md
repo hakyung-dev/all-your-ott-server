@@ -5,10 +5,11 @@
 </p>
 <h1 align="center"><a href="https://ayo.devhak.com">AYO(All Your OTT)</a></h1>
 
+[![Netlify Status](https://api.netlify.com/api/v1/badges/d87307f4-a1b2-467d-b3ff-7b675092ea17/deploy-status)](https://app.netlify.com/sites/all-your-ott/deploys)
 
 ## Introduction
 
-**AYO(All Your OTT)**는 영화/TV 프로그램 컨텐츠에 대하여 리뷰를 기록하고, 리뷰를 바탕으로 전체적인 서비스 통계를 제공하는 웹 어플리케이션입니다.
+**AYO(All Your OTT)** 는 영화/TV 프로그램 컨텐츠에 대하여 리뷰를 기록하고, 리뷰를 바탕으로 전체적인 서비스 통계를 제공하는 웹 어플리케이션입니다.
 
 ### 미리보기
 <img src="./public/images/review.gif" width="400" alt="review" >
